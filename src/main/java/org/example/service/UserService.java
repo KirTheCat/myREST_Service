@@ -1,14 +1,10 @@
 package org.example.service;
 
-import org.example.model.User;
+import org.example.model.entity.User;
 
 import java.util.List;
 
-public interface UserService {
-    void create(User user);
-    List<User> readAll();
-    User read(int id);
-    boolean update(User user, int id);
-    boolean delete(int id);
+public interface UserService extends Service<User> {
 
+    List<User> readByEmail(String email);
 }

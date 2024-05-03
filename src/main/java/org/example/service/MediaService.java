@@ -1,6 +1,6 @@
 package org.example.service;
 
-import org.example.model.Media;
+import org.example.model.entity.Media;
 
 import java.util.List;
 
