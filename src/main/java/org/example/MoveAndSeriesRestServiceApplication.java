@@ -5,8 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-public class moveAndSeriesRestServiceApplication {
+public class MoveAndSeriesRestServiceApplication {
     public static void main(String[] args) {
-        SpringApplication.run(moveAndSeriesRestServiceApplication.class, args);
+        SpringApplication.run(MoveAndSeriesRestServiceApplication.class, args);
     }
 }

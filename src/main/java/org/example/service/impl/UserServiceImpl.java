@@ -1,6 +1,5 @@
 package org.example.service.impl;
 
-import lombok.AllArgsConstructor;
 import org.example.model.entity.User;
 import org.example.repository.UserRepository;
 import org.example.service.UserService;

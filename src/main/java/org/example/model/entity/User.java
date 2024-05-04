@@ -20,6 +20,6 @@ public class User extends AbstractEntity {
     @Column(name = "email")
     private String email;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany
     private List<Media> favoriteMedia;
 }

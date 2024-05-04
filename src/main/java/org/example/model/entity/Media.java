@@ -21,11 +21,7 @@ public class Media extends AbstractEntity{
     @Column(name = "release_year")
     private int releaseYear;
 
-    @OneToMany(mappedBy = "media")
+    @OneToMany
     private List<Review> reviews;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
 }
