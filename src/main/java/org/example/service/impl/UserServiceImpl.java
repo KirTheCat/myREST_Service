@@ -4,16 +4,17 @@ import lombok.AllArgsConstructor;
 import org.example.model.entity.User;
 import org.example.repository.UserRepository;
 import org.example.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
-
+    @Autowired
     private UserRepository userRepository;
 
     @Override
-    public User readAll(Long id) {
+    public User read(Long id) {
         return userRepository.findById(id).orElse(null);
     }
 

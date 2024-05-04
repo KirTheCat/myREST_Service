@@ -31,7 +31,7 @@ public abstract class AbstractController<T extends AbstractEntity> {
 
     @GetMapping("/{id}")
     public ResponseEntity<T> getById(@PathVariable long id) {
-        T entity = getService().readAll(id);
+        T entity = getService().read(id);
         if (entity == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -40,7 +40,7 @@ public abstract class AbstractController<T extends AbstractEntity> {
 
     @PutMapping("/{id}")
     public ResponseEntity<String> put(@PathVariable long id, @RequestBody T entity) {
-        if (getService().readAll(id) == null) {
+        if (getService().read(id) == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         getService().update(entity);
