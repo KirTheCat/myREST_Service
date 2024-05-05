@@ -1,5 +1,7 @@
 package org.example.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +10,15 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class Media extends AbstractEntity{
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Movie.class, name = "movie"),
+        @JsonSubTypes.Type(value = Series.class, name = "series")
+})
+public abstract class Media extends AbstractEntity{
     @Column(name = "title")
     private String title;
 
