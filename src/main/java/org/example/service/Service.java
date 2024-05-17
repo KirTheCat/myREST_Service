@@ -5,9 +5,9 @@ import java.util.List;
 
 
 public interface Service<T extends AbstractEntity>{
+    T create (T entity);
+    T save(T entity);
     T read(Long id);
     List<T> readAll();
-    void update(T entity);
     void delete(Long id);
-    void create (T entity);
 }

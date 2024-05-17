@@ -5,6 +5,8 @@ server:
       enabled: false
 
 spring:
+  application:
+    name: SpringTest
   datasource:
     # driver-class-name: com.mysql.jdbc.Driver
     driver-class-name: com.mysql.cj.jdbc.Driver

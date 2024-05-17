@@ -2,10 +2,9 @@ package org.example.model.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-
+import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 
 @Getter
 @Setter

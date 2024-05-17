@@ -21,8 +21,8 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewRepository.findAll();
     }
     @Override
-    public void update(Review entity) {
-        reviewRepository.save(entity);
+    public Review save(Review entity) {
+        return reviewRepository.save(entity);
     }
 
     @Override
@@ -31,8 +31,12 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void create(Review entity){
-        reviewRepository.save(entity);
+    public Review create(Review entity){
+        return reviewRepository.save(entity);
+    }
+    @Override
+    public Review createAndReturn(Review entity){
+        return reviewRepository.save(entity);
     }
 
 }

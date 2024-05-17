@@ -24,8 +24,8 @@ public class SeriesServiceImpl implements SeriesService {
     }
 
     @Override
-    public void update(Series entity) {
-        seriesRepository.save(entity);
+    public Series save(Series entity) {
+        return seriesRepository.save(entity);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class SeriesServiceImpl implements SeriesService {
     }
 
     @Override
-    public void create(Series entity) {
-        seriesRepository.save(entity);
+    public Series create(Series entity) {
+        return seriesRepository.save(entity);
     }
 }

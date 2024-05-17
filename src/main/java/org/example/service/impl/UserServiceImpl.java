@@ -1,11 +1,17 @@
 package org.example.service.impl;
 
-import org.example.model.entity.User;
-import org.example.repository.UserRepository;
-import org.example.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import java.util.List;
+
+import org.example.model.entity.User;
+import org.example.service.UserService;
+import org.example.model.enums.RoleEnum;
+import org.example.repository.UserRepository;
+
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -23,8 +29,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(User entity) {
-        userRepository.save(entity);
+    public User save(User entity){
+        return userRepository.save(entity);
     }
 
     @Override
@@ -33,12 +39,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void create(User entity) {
-        userRepository.save(entity);
+    public User create(User entity) {
+        if (userRepository.existsByUsername(entity.getUsername())) {
+            throw new RuntimeException("Пользователь с таким именем уже существует");
+        }
+
+        if (userRepository.existsByEmail(entity.getEmail())) {
+            throw new RuntimeException("Пользователь с таким email уже существует");
+        }
+
+        return save(entity);
     }
 
-    @Override
-    public List<User> readByEmail(String email){
-        return userRepository.findByEmail(email);
+    public User getByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
+
+    }
+    public UserDetailsService userDetailsService() {
+        return this::getByUsername;
+    }
+    public User getCurrentUser() {
+        // Получение имени пользователя из контекста Spring Security
+        var username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return getByUsername(username);
+    }
+    @Deprecated
+    public void getAdmin() {
+        var user = getCurrentUser();
+        user.setRole(RoleEnum.ROLE_ADMIN);
+        save(user);
     }
 }
+

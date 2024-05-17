@@ -1,4 +1,4 @@
-package org.example.web;
+package org.example.controller;
 
 import org.example.model.entity.Episode;
 import org.example.model.entity.Series;
@@ -26,7 +26,7 @@ public class SeriesController extends AbstractController<Series> {
         }
         episode.setSeries(series);
         series.getEpisodes().add(episode);
-        seriesService.update(series);
+        seriesService.save(series);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @Override

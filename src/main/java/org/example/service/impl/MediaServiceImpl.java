@@ -22,8 +22,8 @@ public class MediaServiceImpl implements MediaService {
         return mediaRepository.findAll();
     }
     @Override
-    public void update(Media entity) {
-        mediaRepository.save(entity);
+    public Media save(Media entity) {
+        return mediaRepository.save(entity);
     }
 
     @Override
@@ -32,8 +32,8 @@ public class MediaServiceImpl implements MediaService {
     }
 
     @Override
-    public void create(Media entity){
-        mediaRepository.save(entity);
+    public Media create(Media entity){
+        return mediaRepository.save(entity);
     }
 
 }

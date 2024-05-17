@@ -22,8 +22,8 @@ public class MovieServiceImpl implements MovieService {
         return movieRepository.findAll();
     }
     @Override
-    public void update(Movie entity) {
-        movieRepository.save(entity);
+    public Movie save(Movie entity) {
+        return  movieRepository.save(entity);
     }
 
     @Override
@@ -32,8 +32,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public void create(Movie entity){
-        movieRepository.save(entity);
+    public Movie create(Movie entity){
+        return movieRepository.save(entity);
     }
 
 }

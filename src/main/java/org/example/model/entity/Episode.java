@@ -1,9 +1,10 @@
 package org.example.model.entity;
 
+
 import lombok.Getter;
 import lombok.Setter;
-
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 @Getter
 @Setter
 @Entity
@@ -20,5 +21,6 @@ public class Episode extends AbstractEntity{
 
     @ManyToOne
     @JoinColumn(name = "series_id")
+    @JsonBackReference
     private Series series;
 }

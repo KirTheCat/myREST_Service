@@ -1,4 +1,4 @@
-package org.example.web;
+package org.example.controller;
 
 import jakarta.annotation.PostConstruct;
 import org.example.model.entity.AbstractEntity;
@@ -43,7 +43,7 @@ public abstract class AbstractController<T extends AbstractEntity> {
         if (getService().read(id) == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        getService().update(entity);
+        getService().save(entity);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

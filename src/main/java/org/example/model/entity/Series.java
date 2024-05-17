@@ -1,12 +1,12 @@
 package org.example.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.util.List;
+import jakarta.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+
 @Getter
 @Setter
 @Entity

@@ -1,4 +1,4 @@
-package org.example.web;
+package org.example.controller;
 
 import org.example.model.entity.Movie;
 import org.example.service.Service;

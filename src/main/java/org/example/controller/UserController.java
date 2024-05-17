@@ -1,4 +1,4 @@
-package org.example.web;
+package org.example.controller;
 
 import org.example.model.entity.Media;
 import org.example.model.entity.User;
@@ -28,7 +28,7 @@ public class UserController extends AbstractController<User> {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         user.getFavoriteMedia().add(media);
-        userService.update(user);
+        userService.save(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @Override
