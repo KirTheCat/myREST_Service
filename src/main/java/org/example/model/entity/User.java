@@ -1,14 +1,13 @@
 package org.example.model.entity;
 
-import jakarta.persistence.*;
 import lombok.*;
+import java.util.List;
+import java.util.Collection;
+import jakarta.persistence.*;
 import org.example.model.enums.RoleEnum;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Collection;
-import java.util.List;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @Getter
 @Setter
