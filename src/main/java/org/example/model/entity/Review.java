@@ -21,4 +21,7 @@ public class Review extends AbstractEntity{
     @JoinColumn(name = "media_id")
     @JsonBackReference
     private Media media;
+
+    @OneToOne
+    private User author;
 }

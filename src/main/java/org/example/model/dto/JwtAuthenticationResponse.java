@@ -1,10 +1,10 @@
 package org.example.model.dto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 @Data
 @Builder
@@ -14,4 +14,8 @@ import lombok.NoArgsConstructor;
 public class JwtAuthenticationResponse {
     @Schema(description = "Токен доступа", example = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYyMjUwNj...")
     private String token;
+
+    @Schema(description = "Роль пользователя", example = "ROLE_USER")
+    private String role;
+
 }

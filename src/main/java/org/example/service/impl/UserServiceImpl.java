@@ -1,12 +1,9 @@
 package org.example.service.impl;
 
 import java.util.List;
-
 import org.example.model.entity.User;
 import org.example.service.UserService;
-import org.example.model.enums.RoleEnum;
 import org.example.repository.UserRepository;
-
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -63,12 +60,6 @@ public class UserServiceImpl implements UserService {
         // Получение имени пользователя из контекста Spring Security
         var username = SecurityContextHolder.getContext().getAuthentication().getName();
         return getByUsername(username);
-    }
-    @Deprecated
-    public void getAdmin() {
-        var user = getCurrentUser();
-        user.setRole(RoleEnum.ROLE_ADMIN);
-        save(user);
     }
 }
 

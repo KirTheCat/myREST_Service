@@ -44,7 +44,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/users/sign_up", "/users/sign_in", "/media/**", "/media/{mediaId}/reviews").permitAll()
                         .requestMatchers("/users/{userId}/add_to_favorites/{mediaId}", "/media/{mediaId}/add_review").hasRole("USER")
-                        .requestMatchers("/media/{mediaId}/add_ep").hasRole("ADMIN")
+                        .requestMatchers("/media/{mediaId}/add_ep","/users").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider())

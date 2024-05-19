@@ -3,9 +3,9 @@ package org.example.model.enums;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 public enum RatingEnum {
-    ZERO_STAR("(Приемлемо)"),
-    ONE_STAR("★ (Ужасно)"),
-    TWO_STARS("★★ (Плохо)"),
+    ZERO_STAR("Без оценки"),
+    ONE_STAR("★ (Приемлемо)"),
+    TWO_STARS("★★ (Терпимо)"),
     THREE_STARS("★★★ (Неплохо)"),
     FOUR_STARS("★★★★ (Круто)"),
     FIVE_STARS("★★★★★ (Супер!)");

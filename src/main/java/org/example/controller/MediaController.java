@@ -16,6 +16,7 @@ import org.example.service.impl.SeriesServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 @RestController
 @RequestMapping("/media")
@@ -69,37 +70,32 @@ public class MediaController extends AbstractController<Media> {
     ///// добавить отзыв авторизованным пользователем
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @PostMapping("/{mediaId}/add_review")
-    public ResponseEntity<String> post(@PathVariable Long mediaId, @RequestBody Review entity) {
+    public ResponseEntity<String> post(@PathVariable Long mediaId, @RequestBody Review entity, @AuthenticationPrincipal User user) {
         Media media = mediaService.read(mediaId);
         if (media == null) {
             return new ResponseEntity<>("Media not found", HttpStatus.NOT_FOUND);
         }
 
         entity.setMedia(media);
+        entity.setAuthor(user); // добавляем автора отзыва
         Review savedReview = reviewService.createAndReturn(entity);
         media.getReviews().add(savedReview);
         mediaService.save(media);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-@GetMapping("/{mediaId}/reviews")
-public ResponseEntity<List<Review>> getReviews(){
-    List<Media> entities = new ArrayList<>();
-    entities.addAll(movieService.readAll());
-    entities.addAll(seriesService.readAll());
+    @GetMapping("/{mediaId}/reviews")
+    public ResponseEntity<List<Review>> getReviews(@PathVariable Long mediaId){
+        Media media = mediaService.read(mediaId);
+        if (media == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
-    if (entities.isEmpty()) {
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    List<Review> reviews = new ArrayList<>();
-    for (Media media : entities) {
+        List<Review> reviews = new ArrayList<>();
         reviews.addAll(media.getReviews());
+
+        return new ResponseEntity<>(reviews, headers, HttpStatus.OK);
     }
-
-    return new ResponseEntity<>(reviews, headers, HttpStatus.OK);
-}
-
     //////////// для сериала
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
