@@ -3,6 +3,7 @@ package org.example.config;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import  org.example.service.UserService;
+import org.springframework.http.HttpMethod;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.security.web.SecurityFilterChain;
@@ -42,9 +43,12 @@ public class SecurityConfig {
                 }))
                 // Настройка доступа к конечным точкам
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/users/sign_up", "/users/sign_in", "/media/**", "/media/{mediaId}/reviews").permitAll()
+                        .requestMatchers("/users/sign_up", "/users/sign_in", "/media","/media/**", "/media/{mediaId}/reviews").permitAll()
                         .requestMatchers("/users/{userId}/add_to_favorites/{mediaId}", "/media/{mediaId}/add_review").hasRole("USER")
                         .requestMatchers("/media/{mediaId}/add_ep","/users").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider())

@@ -1,5 +1,6 @@
 package org.example.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import java.util.List;
 import java.util.Collection;

@@ -23,5 +23,15 @@ public class Review extends AbstractEntity{
     private Media media;
 
     @OneToOne
+    @JsonBackReference
     private User author;
+
+    private String authorInfo;
+    public String printAuthor(User author){
+        return "Пользователь: "+author.getUsername() + "; Почта: " + author.getEmail();
+    }
+
+    public void setAuthorInfo() {
+        this.authorInfo = printAuthor(author);
+    }
 }

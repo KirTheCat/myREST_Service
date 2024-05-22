@@ -33,15 +33,13 @@ public class MediaController extends AbstractController<Media> {
         this.seriesService = seriesService;
         this.reviewService = reviewService;
     }
-
-    //////////Заглушка/////////////
     @Override
     @PostMapping("/mediaEntity")
     public ResponseEntity<String> post(@RequestBody Media entity) {
         return super.post(entity);
     }
-    ///////////////////////////////
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<String> post(@RequestBody Map<String, Object> entity) {
         String type = (String) entity.get("type");
@@ -73,11 +71,11 @@ public class MediaController extends AbstractController<Media> {
     public ResponseEntity<String> post(@PathVariable Long mediaId, @RequestBody Review entity, @AuthenticationPrincipal User user) {
         Media media = mediaService.read(mediaId);
         if (media == null) {
-            return new ResponseEntity<>("Media not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Ошибка! Объект с таким id не найден!", HttpStatus.NOT_FOUND);
         }
-
         entity.setMedia(media);
-        entity.setAuthor(user); // добавляем автора отзыва
+        entity.setAuthor(user);
+        entity.setAuthorInfo();
         Review savedReview = reviewService.createAndReturn(entity);
         media.getReviews().add(savedReview);
         mediaService.save(media);
@@ -90,7 +88,6 @@ public class MediaController extends AbstractController<Media> {
         if (media == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
         List<Review> reviews = new ArrayList<>();
         reviews.addAll(media.getReviews());
 

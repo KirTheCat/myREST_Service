@@ -6,6 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import org.example.service.Service;
@@ -38,6 +39,7 @@ public abstract class AbstractController<T extends AbstractEntity> {
         return new ResponseEntity<>(entity, headers, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<String> put(@PathVariable long id, @RequestBody T entity) {
         if (getService().read(id) == null) {
@@ -46,13 +48,13 @@ public abstract class AbstractController<T extends AbstractEntity> {
         getService().save(entity);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<String> post(@RequestBody T entity) {
         getService().create(entity);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable long id) {
         getService().delete(id);
