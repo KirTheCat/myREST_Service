@@ -19,7 +19,7 @@ public class Review extends AbstractEntity{
 
     @ManyToOne
     @JoinColumn(name = "media_id")
-    @JsonBackReference
+    @JsonBackReference("media-review")
     private Media media;
 
     @OneToOne
@@ -28,7 +28,7 @@ public class Review extends AbstractEntity{
 
     private String authorInfo;
     public String printAuthor(User author){
-        return "Пользователь: "+author.getUsername() + "; Почта: " + author.getEmail();
+        return "Пользователь: " + author.getUsername() + "; Почта: " + author.getEmail();
     }
 
     public void setAuthorInfo() {

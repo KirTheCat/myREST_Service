@@ -48,7 +48,6 @@ public abstract class AbstractController<T extends AbstractEntity> {
         getService().save(entity);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<String> post(@RequestBody T entity) {
         getService().create(entity);

@@ -16,10 +16,6 @@ public enum RatingEnum {
         this.rating = rating;
     }
 
-    public String getRating() {
-        return this.rating;
-    }
-
     @JsonCreator
     public static RatingEnum fromString(String value) {
         for (RatingEnum ratingEnum : RatingEnum.values()) {
