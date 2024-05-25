@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/media")
@@ -50,7 +51,7 @@ public class MediaController extends AbstractController<Media> {
             Series series = new ObjectMapper().convertValue(entity, Series.class);
             seriesService.create(series);
         } else {
-            return new ResponseEntity<>("Invalid type", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Неверный тип данных", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -69,10 +70,8 @@ public class MediaController extends AbstractController<Media> {
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @PostMapping("/{mediaId}/add_review")
     public ResponseEntity<String> post(@PathVariable Long mediaId, @RequestBody Review entity, @AuthenticationPrincipal User user) {
-        Media media = mediaService.read(mediaId);
-        if (media == null) {
-            return new ResponseEntity<>("Ошибка! Объект с таким id не найден!", HttpStatus.NOT_FOUND);
-        }
+        Media media = getMediaById(mediaId);
+
         entity.setMedia(media);
         entity.setAuthor(user);
         entity.setAuthorInfo();
@@ -86,10 +85,8 @@ public class MediaController extends AbstractController<Media> {
     // просмотр всех отзывов по Id фильма (сериала)
     @GetMapping("/{mediaId}/reviews")
     public ResponseEntity<List<Review>> getReviews(@PathVariable Long mediaId){
-        Media media = mediaService.read(mediaId);
-        if (media == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+
+        Media media = getMediaById(mediaId);
         List<Review> reviews = new ArrayList<>();
         reviews.addAll(media.getReviews());
 
@@ -102,11 +99,9 @@ public class MediaController extends AbstractController<Media> {
     // Получить отзыв по id
     @GetMapping("/{mediaId}/reviews/{reviewId}")
     public ResponseEntity<Review> getReview(@PathVariable Long mediaId, @PathVariable Long reviewId) {
-        Media media = mediaService.read(mediaId);
-        if (media == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        Media media = getMediaById(mediaId);
         Review review = reviewService.read(reviewId);
+
         if (review == null || !media.getReviews().contains(review)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -117,10 +112,8 @@ public class MediaController extends AbstractController<Media> {
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @DeleteMapping("/{mediaId}/reviews/{reviewId}")
     public ResponseEntity<String> deleteReview(@PathVariable Long mediaId, @PathVariable Long reviewId, @AuthenticationPrincipal User user) {
-        Media media = mediaService.read(mediaId);
-        if (media == null) {
-            return new ResponseEntity<>("Ошибка! Объект с таким id не найден!", HttpStatus.NOT_FOUND);
-        }
+        Media media = getMediaById(mediaId);
+
         Review review = reviewService.read(reviewId);
         if (review == null || !media.getReviews().contains(review)) {
             return new ResponseEntity<>("Ошибка! Объект с таким id не найден!", HttpStatus.NOT_FOUND);
@@ -138,10 +131,8 @@ public class MediaController extends AbstractController<Media> {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/{mediaId}/add_ep")
     public ResponseEntity<String> addEpisode(@PathVariable Long mediaId, @RequestBody Map<String, Object> specificObject) {
-        Media media = mediaService.read(mediaId);
-        if (media == null) {
-            return new ResponseEntity<>("Ошибка! Объект с таким ID не найден!", HttpStatus.NOT_FOUND);
-        }
+        Media media = getMediaById(mediaId);
+
         if (media instanceof Series) {
             Episode episode = new ObjectMapper().convertValue(specificObject, Episode.class);
             episode.setSeries((Series) media);
@@ -150,6 +141,13 @@ public class MediaController extends AbstractController<Media> {
         } else return new ResponseEntity<>("Ошибка! Объект не является сериалом!", HttpStatus.BAD_REQUEST);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+    private Media getMediaById(Long mediaId) {
+        Media media = mediaService.read(mediaId);
+        if (media == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ошибка! Объект с таким ID не найден!");
+        }
+        return media;
     }
     @Override
     public Service<Media> getService() {
