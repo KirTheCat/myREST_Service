@@ -21,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class JwtService {
     @Value("$53A73E5F1C4E0A2D3B5F2D784E6A1B423D6F247D1F6E5C3A596D635A75327855")
     private String jwtSigningKey;
+
     public String extractUserName(String token) {
         return extractClaim(token, Claims::getSubject);
     }
@@ -34,6 +35,7 @@ public class JwtService {
         }
         return generateToken(claims, userDetails);
     }
+
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String userName = extractUserName(token);
         return (userName.equals(userDetails.getUsername())) && !isTokenExpired(token);

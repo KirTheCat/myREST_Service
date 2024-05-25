@@ -20,6 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @RestController
 @RequestMapping("/users")
 public class UserController extends AbstractController<User> {
+
     private final UserServiceImpl userService;
     private final MediaServiceImpl mediaService;
     private final AuthenticationService authenticationService;
@@ -54,7 +55,6 @@ public class UserController extends AbstractController<User> {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
     @Override
     @GetMapping("/{id}")
     public ResponseEntity<User> getById(@PathVariable long id) {
@@ -69,14 +69,14 @@ public class UserController extends AbstractController<User> {
 
         if (currentUser.getId().equals(user.getId()) && currentUser.getRole().equals(RoleEnum.ROLE_USER)) {
             return new ResponseEntity<>(user, headers, HttpStatus.OK);
-        }
-        else if(currentUser.getRole().equals(RoleEnum.ROLE_ADMIN)){
+        } else if (currentUser.getRole().equals(RoleEnum.ROLE_ADMIN)) {
             return new ResponseEntity<>(user, headers, HttpStatus.OK);
-        }
-        else {
+        } else {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
     }
+
+    @Override
     public Service<User> getService() {
         return userService;
     }
