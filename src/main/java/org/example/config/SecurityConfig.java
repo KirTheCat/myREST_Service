@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import  org.example.service.UserService;
 import org.springframework.http.HttpMethod;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.context.annotation.Configuration;

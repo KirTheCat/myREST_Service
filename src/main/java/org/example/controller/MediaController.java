@@ -96,6 +96,25 @@ public class MediaController extends AbstractController<Media> {
 
         return new ResponseEntity<>(reviews, headers, HttpStatus.OK);
     }
+    @GetMapping("/{mediaId}/average_rating")
+    public ResponseEntity<String> getAverageRating(@PathVariable Long mediaId) {
+        Media media = getMediaById(mediaId);
+        List<Review> reviews = new ArrayList<>();
+        reviews.addAll(media.getReviews());
+
+        if (reviews.isEmpty()) {
+            return new ResponseEntity<>("Нет отзывов для этого медиа", HttpStatus.NOT_FOUND);
+        }
+
+        double sum = 0;
+        for (Review review : reviews) {
+            sum += review.getRating().ordinal();
+        }
+
+        double average = sum / reviews.size();
+
+        return new ResponseEntity<>("Средний рейтинг: " + average, HttpStatus.OK);
+    }
     // Получить отзыв по id
     @GetMapping("/{mediaId}/reviews/{reviewId}")
     public ResponseEntity<Review> getReview(@PathVariable Long mediaId, @PathVariable Long reviewId) {
