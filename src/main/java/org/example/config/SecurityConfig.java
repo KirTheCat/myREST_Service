@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import  org.example.service.UserService;
 import org.springframework.http.HttpMethod;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.context.annotation.Configuration;
@@ -44,6 +45,7 @@ public class SecurityConfig {
                 // Настройка доступа к конечным точкам
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/users/sign_up", "/users/sign_in", "/media","/media/**", "/media/{mediaId}/reviews").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/swagger-resources/*", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/users/{userId}/add_to_favorites/{mediaId}", "/media/{mediaId}/add_review").hasRole("USER")
                         .requestMatchers("/media/{mediaId}/add_ep","/users").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/**").hasRole("ADMIN")
@@ -68,7 +70,6 @@ public class SecurityConfig {
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
-
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
             throws Exception {
