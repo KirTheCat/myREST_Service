@@ -10,4 +10,5 @@ public interface Service<T extends AbstractEntity>{
     T read(Long id);
     List<T> readAll();
     void delete(Long id);
+    long count();
 }

@@ -32,6 +32,10 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    public long count() {
+        return movieRepository.count();
+    }
+    @Override
     public Movie create(Movie entity){
         return movieRepository.save(entity);
     }

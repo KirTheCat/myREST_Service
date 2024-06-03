@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 
+import org.example.model.dto.MediaCountDto;
 import org.example.model.entity.*;
 import org.example.service.Service;
 import org.springframework.http.HttpStatus;
@@ -55,6 +56,7 @@ public class MediaController extends AbstractController<Media> {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    //List<Media>
     @Override
     @GetMapping
     public ResponseEntity<List<Media>> getAll() {
@@ -65,6 +67,15 @@ public class MediaController extends AbstractController<Media> {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(entities, headers, HttpStatus.OK);
+    }
+    @GetMapping("/count")
+    public ResponseEntity<MediaCountDto> getMediaCount() {
+        long movieCount = movieService.count();
+        long seriesCount = seriesService.count();
+        long totalMediaCount = movieCount + seriesCount;
+
+        MediaCountDto mediaCountDTO = new MediaCountDto(movieCount, seriesCount, totalMediaCount);
+        return new ResponseEntity<>(mediaCountDTO, HttpStatus.OK);
     }
     ///// добавить отзыв авторизованным пользователем
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")

@@ -1,4 +1,4 @@
-package org.example.model.dto;
+package org.example.model.authDto;
 
 import lombok.Data;
 import jakarta.validation.constraints.Size;

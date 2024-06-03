@@ -25,7 +25,10 @@ public class MediaServiceImpl implements MediaService {
     public Media save(Media entity) {
         return mediaRepository.save(entity);
     }
-
+    @Override
+    public long count() {
+        return mediaRepository.count();
+    }
     @Override
     public void delete(Long id) {
         mediaRepository.deleteById(id);

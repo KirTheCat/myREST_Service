@@ -22,7 +22,10 @@ public class SeriesServiceImpl implements SeriesService {
     public List<Series> readAll() {
         return seriesRepository.findAll();
     }
-
+    @Override
+    public long count() {
+        return seriesRepository.count();
+    }
     @Override
     public Series save(Series entity) {
         return seriesRepository.save(entity);

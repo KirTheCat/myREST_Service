@@ -19,7 +19,10 @@ public class UserServiceImpl implements UserService {
     public User read(Long id) {
         return userRepository.findById(id).orElse(null);
     }
-
+    @Override
+    public long count() {
+        return userRepository.count();
+    }
     @Override
     public List<User> readAll() {
         return userRepository.findAll();

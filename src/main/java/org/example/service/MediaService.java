@@ -5,5 +5,5 @@ import org.example.model.entity.Media;
 import java.util.List;
 
 public interface MediaService extends Service<Media>{
-
+public long count();
 }

@@ -4,14 +4,14 @@ import org.example.service.*;
 import org.example.model.entity.User;
 import org.example.model.entity.Media;
 import org.example.model.enums.RoleEnum;
-import org.example.model.dto.SignInRequest;
+import org.example.model.authDto.SignInRequest;
 import org.springframework.http.HttpStatus;
-import org.example.model.dto.SignUpRequest;
+import org.example.model.authDto.SignUpRequest;
 import org.springframework.http.ResponseEntity;
 import org.example.service.impl.UserServiceImpl;
 import org.springframework.web.bind.annotation.*;
 import org.example.service.impl.MediaServiceImpl;
-import org.example.model.dto.JwtAuthenticationResponse;
+import org.example.model.authDto.JwtAuthenticationResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -47,11 +47,14 @@ public class UserController extends AbstractController<User> {
     public ResponseEntity<String> addFavorite(@PathVariable Long userId, @PathVariable Long mediaId) {
         User user = userService.read(userId);
         Media media = mediaService.read(mediaId);
+
         if (user == null || media == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
         user.getFavoriteMedia().add(media);
         userService.save(user);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -59,6 +62,7 @@ public class UserController extends AbstractController<User> {
     @GetMapping("/{id}")
     public ResponseEntity<User> getById(@PathVariable long id) {
         User user = userService.read(id);
+
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

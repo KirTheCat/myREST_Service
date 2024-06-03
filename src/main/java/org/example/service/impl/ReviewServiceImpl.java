@@ -29,7 +29,10 @@ public class ReviewServiceImpl implements ReviewService {
     public void delete(Long id) {
         reviewRepository.deleteById(id);
     }
-
+    @Override
+    public long count() {
+        return reviewRepository.count();
+    }
     @Override
     public Review create(Review entity){
         return reviewRepository.save(entity);
