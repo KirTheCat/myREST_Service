@@ -27,9 +27,12 @@ public abstract class AbstractController<T extends AbstractEntity> {
         if (entities.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(entities, headers, HttpStatus.OK);
+        int count = 0;
+        for(Entity entitiy : entities) {
+            count++;
+        }
+        return new ResponseEntity<>("Всего сущностей: " + count, entities, headers, HttpStatus.OK);
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<T> getById(@PathVariable long id) {
         T entity = getService().read(id);
